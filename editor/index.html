@@ -1,0 +1,39 @@
+<!--
+	This code is almost entirely Ross Kirsling's work (http://bl.ocks.org/rkirsling/5001347), with a few
+	modifications to serve my purposes. I don't think it would be very honest to take credit for this.
+	Also, the JS is an absolute mess. Please pay no attention to it.
+-->
+
+<html>
+	<head>
+		<title>Page Map Editor</title>
+		<link rel="stylesheet" href="app.css" />
+		<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+		<script type="text/javascript" src="d3.v3.min.js"></script>
+	</head>
+	<body>
+		<article>
+			<header>Instructions</header>
+			<ul>
+				<li>Shift-click on the background to create a new node.</li>
+				<li><span id="altoption">Alt</span>-click on a node or link to delete it.</li>
+				<li>Click and drag a node while holding Ctrl to move it.</li>
+				<li>Click and drag one node to another to link them.</li>
+				<li>Click on a link and press T to toggle its direction.</li>
+				<li>Click on a node and press T to toggle its reflexivity.</li>
+				<li>Your work is automatically saved.</li>
+				<li>To save a preset, press S.</li>
+				<li>To start from scratch, press X.</li>
+				<li>To start over with the default graph, press D.</li>
+				<li>To copy the MATLAB matrix code, press <span id="modifier">Ctrl-C</span>.</li>
+				<li><select><option disabled="disabled" selected="selected">Presets</option></select></li>
+			</ul>
+			<div id="notify"></div>
+		</article>
+	</body>
+	<script type="text/javascript">
+		document.getElementById("modifier").innerText = navigator.userAgent.match(/OS X/)? "\u2318C" : "Ctrl-C";
+		document.getElementById("altoption").innerText = navigator.userAgent.match(/OS X/)? "Option" : "Alt";
+	</script>
+	<script type="text/javascript" src="directed.js"></script>
+</html>
