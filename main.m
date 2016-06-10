@@ -2,6 +2,6 @@ H1 = [0 0 0 0 0 0 0.333 0;0.5 0 0.5 0.333 0 0 0 0;0.5 0 0 0 0 0 0 0;0 1 0 0 0 0 
 H2 = [0 0 0 0 0 0 0 0; 1/2 0 1/2 1/3 0 0 0 0; 1/2 0 0 0 0 0 0 0; 0 1 0 0 0 0 0 0; 0 0 1/2 1/3 0 0 1/2 0; 0 0 0 1/3 1/3 0 0 1/2; 0 0 0 0 1/3 0 0 1/2; 0 0 0 0 1/3 1 1/2 0];
 W = [0 0 0 0.5 0 0 0 0 0 0 0;0 0 1 0.5 0.3333333333333333 0.5 0 0 0.5 0.5 0.5;0 1 0 0 0 0 0 0 0 0 0;0 0 0 0 0.3333333333333333 0 0 0 0 0 0;0 0 0 0 0 0.5 1 1 0.5 0.5 0.5;0 0 0 0 0.3333333333333333 0 0 0 0 0 0;0 0 0 0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0 0 0 0;0 0 0 0 0 0 0 0 0 0 0];
 
-% Derived from the "Wikipedia" present in the mapper. Compare the results to
+% Derived from the "Wikipedia" preset in the graph editor. Compare the results to
 % https://upload.wikimedia.org/wikipedia/commons/f/fb/PageRanks-Example.svg
 pagerank(W)
