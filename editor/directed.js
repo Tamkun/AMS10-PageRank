@@ -469,6 +469,8 @@ document.addEventListener("copy", e => {
 		text = "\\begin{bmatrix}" + data.map(x => Array.from(x).map(frac).join("&")).join("\\\\") + "\\end{bmatrix}";
 	} else if (type == "nofrac") {
 		text = "\\begin{bmatrix}" + data.map(x => x.map(y => Math.floor(y * 1000) / 1000).join("&")).join("\\\\") + "\\end{bmatrix}";
+	} else if (type == "wa") {
+		text = "[[" + data.map(x => x.join(",")).join("],[") + "]]";
 	} else {
 		text = "[" + data.map(x => x.join(" ")).join(";") + "]";
 	};
