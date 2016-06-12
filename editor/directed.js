@@ -422,6 +422,11 @@ function keyup() {
 };
 
 document.addEventListener("copy", e => {
+	event.preventDefault();
+
+	if (force.nodes().length == 0)
+		return;
+
 	force.nodes().sort((x, y) => x.id > y.id? 1 : (x.id == y.id? 0 : -1));
 
 	let	pages = {}, idMap = {}, i = 0, size = force.nodes().length, data = new Array(size);
@@ -430,35 +435,46 @@ document.addEventListener("copy", e => {
 		data[i] = new Float64Array(size);
 		idMap[node.id] = i;
 		pages[i] = [];
-		if (node.reflexive) {
+		if (node.reflexive)
 			pages[i].push(i);
-		};
 
 		i++;
 	};
 
 	for (link of links) {
 		let {source, target, left, right} = link;
-		if (left) {
+		if (left)
 			pages[idMap[target.id]].push(idMap[source.id]);
-		};
 
-		if (right) {
+		if (right)
 			pages[idMap[source.id]].push(idMap[target.id]);
-		};
 	};
 
-	for (let row = 0; row < size; row++) {
-		for (let col = 0; col < size; col++) {
-			if (pages[col].length) {
+	for (let row = 0; row < size; row++)
+		for (let col = 0; col < size; col++)
+			if (pages[col].length)
 				data[row][col] = pages[col].reduce((a, b) => a + (b == row), 0) / pages[col].length;
-			};
-		};
+
+	let frac = function(n) {
+		for (let i = 2; i <= 10; i++)
+			if (n == 1/i)
+				return `\\frac{1}{${i}}`;
+		return n.toString();
 	};
 
-	e.clipboardData.setData("text/plain", "[" + data.map(x => x.join(" ")).join(";") + "]");
+	let text;
+	let type = $("#code").val();
+	
+	if (type == "latex") {
+		text = "\\begin{bmatrix}" + data.map(x => Array.from(x).map(frac).join("&")).join("\\\\") + "\\end{bmatrix}";
+	} else if (type == "nofrac") {
+		text = "\\begin{bmatrix}" + data.map(x => x.map(y => Math.floor(y * 1000) / 1000).join("&")).join("\\\\") + "\\end{bmatrix}";
+	} else {
+		text = "[" + data.map(x => x.join(" ")).join(";") + "]";
+	};
+
+	e.clipboardData.setData("text/plain", text);
 	notify("Text copied.");
-	e.preventDefault();
 });
 
 svg.on("mousedown", mousedown).on("mousemove", mousemove).on("mouseup", mouseup);
@@ -466,8 +482,8 @@ d3.select(window).on("keydown", keydown).on("keyup", keyup);
 restart();
 
 function initUI() {
-	$("select option:not([disabled])").remove();
-	let select = $("select").off("change"), obj = JSON.parse(localStorage.copies || "{}");
+	$("#presets option:not([disabled])").remove();
+	let select = $("#presets").off("change"), obj = JSON.parse(localStorage.copies || "{}");
 	$.each(obj, (k, v) => {
 		$("<option></option>").appendTo(select).text(k).attr({value: k});
 	});
@@ -486,4 +502,8 @@ function notify(msg) {
 	setTimeout(() => $("#notify").text("").hide(void(messaging = false)), 2000);
 };
 
-$(initUI);
+$(function() {
+	initUI();
+	$("#code").on("change", () => localStorage.codeType = $("#code").val())
+	$("article").css("opacity", 1);
+});

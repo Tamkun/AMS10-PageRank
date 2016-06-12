@@ -68,6 +68,10 @@ article {
 	padding: 10px 14px;
 	overflow: hidden;
 	font-family: sans-serif;
+
+	/* this prevents the platform-specific changes (eg Alt -> Option) and preferences (eg code type) from visibly occurring. */
+	opacity: 0.0;
+	-webkit-transition: opacity 0.1s;
 }
 
 ul {
